@@ -10,7 +10,6 @@ module.exports = {
       value: {
         type: Sequelize.FLOAT,
         allowNull: false,
-        unique: true,
       },
       brand_id: {
         type: Sequelize.INTEGER,

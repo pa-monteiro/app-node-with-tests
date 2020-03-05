@@ -1,13 +1,13 @@
 import * as Yup from 'yup';
 import Vehicle from '../models/Vehicle';
 import Models from '../models/Models';
+import Brand from '../models/Brand';
 
 class VehicleController {
   async store(req, res) {
     const schema = Yup.object().shape({
       brand_id: Yup.number().required(),
       model_id: Yup.number().required(),
-      name: Yup.string().required(),
       value: Yup.number().required(),
       year_model: Yup.number().required(),
       fuel: Yup.string().required(),
@@ -17,16 +17,7 @@ class VehicleController {
       return res.status(400).json({ error: 'Validation fails' });
     }
 
-    const { brand_id, model_id, name, value, year_model, fuel } = req.body;
-
-    const vehicle = await Vehicle.create({
-      brand_id,
-      model_id,
-      name,
-      value,
-      year_model,
-      fuel,
-    });
+    const vehicle = await Vehicle.create(req.body);
 
     return res.status(201).json(vehicle);
   }
@@ -35,9 +26,10 @@ class VehicleController {
     const { id } = req.params;
 
     const vehicle = await Vehicle.findByPk(id);
-    if (vehicle == null) {
+    if (!vehicle) {
       return res.status(400).json({ error: 'Vehicle not found.' });
     }
+
     return res.json(vehicle);
   }
 
@@ -45,7 +37,6 @@ class VehicleController {
     const schema = Yup.object().shape({
       brand_id: Yup.number().required(),
       model_id: Yup.number().required(),
-      name: Yup.string().required(),
       value: Yup.number().required(),
       year_model: Yup.number().required(),
       fuel: Yup.string().required(),
@@ -57,11 +48,12 @@ class VehicleController {
 
     const { id } = req.params;
     const vehicle = await Vehicle.findByPk(id);
-    if (vehicle == null) {
+
+    if (!vehicle) {
       return res.status(400).json({ error: 'Vehicle not found.' });
     }
 
-    Vehicle.update(req.body);
+    vehicle.update(req.body);
 
     return res.status(200).json(vehicle);
   }
@@ -70,11 +62,11 @@ class VehicleController {
     const { id } = req.params;
 
     const vehicle = await Vehicle.findByPk(id);
-    if (Vehicle == null) {
+    if (!vehicle) {
       return res.status(400).json({ error: 'Vehicle not found.' });
     }
 
-    Vehicle.remove(id);
+    vehicle.destroy();
 
     return res.status(200).json({ message: 'Vehicle deleted' });
   }
@@ -92,7 +84,13 @@ class VehicleController {
           as: 'model',
           attributes: ['name'],
         },
+        {
+          model: Brand,
+          as: 'brand',
+          attributes: ['name'],
+        },
       ],
+      attributes: ['id', 'value', 'year_model', 'fuel'],
       order: ['value'],
     });
 

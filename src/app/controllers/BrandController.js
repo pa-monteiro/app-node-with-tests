@@ -31,7 +31,7 @@ class BrandController {
     const { id } = req.params;
 
     const brand = await Brand.findByPk(id);
-    if (brand == null) {
+    if (!brand) {
       return res.status(400).json({ error: 'Brand not found.' });
     }
     return res.json(brand);
@@ -48,7 +48,7 @@ class BrandController {
 
     const { id } = req.params;
     const brand = await Brand.findByPk(id);
-    if (brand == null) {
+    if (!brand) {
       return res.status(400).json({ error: 'Brand not found.' });
     }
 
@@ -61,11 +61,11 @@ class BrandController {
     const { id } = req.params;
 
     const brand = await Brand.findByPk(id);
-    if (brand == null) {
+    if (!brand) {
       return res.status(400).json({ error: 'Brand not found.' });
     }
 
-    Brand.findByIdAndRemove(id);
+    brand.destroy();
 
     return res.status(200).json({ message: 'Brand deleted' });
   }

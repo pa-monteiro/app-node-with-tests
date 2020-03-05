@@ -4,9 +4,9 @@ class Vehicle extends Model {
   static init(sequelize) {
     super.init(
       {
-        value: Sequelize.FLOAT,
         brand_id: Sequelize.INTEGER,
         model_id: Sequelize.INTEGER,
+        value: Sequelize.FLOAT,
         year_model: Sequelize.INTEGER,
         fuel: Sequelize.STRING,
       },

@@ -64,11 +64,11 @@ class ModelController {
     const { id } = req.params;
 
     const model = await Models.findByPk(id);
-    if (model == null) {
+    if (!model) {
       return res.status(400).json({ error: 'Model not found.' });
     }
 
-    Models.remove(id);
+    model.destroy();
 
     return res.status(200).json({ message: 'Model deleted' });
   }
@@ -80,14 +80,8 @@ class ModelController {
       where: {
         brand_id: brandId,
       },
-      include: [
-        {
-          model: Brand,
-          as: 'brand',
-          attributes: ['name'],
-        },
-      ],
       order: ['name'],
+      attributes: ['name', 'id'],
     });
 
     return res.status(200).json(model);

@@ -15,23 +15,23 @@ routes.post('/login', AuthController.store);
 // Rotas Publicas
 routes.get('/api/brands', BrandController.index);
 routes.get('/api/models/:brandId', ModelController.index);
-routes.get('/api/vehicles/:brandId', VehicleController.index);
+routes.get('/api/vehicles/:modelId', VehicleController.index);
 
 // Rotas ADMIN
 routes.use(authMiddleware);
 routes.post('/api/brands', BrandController.store);
 routes.get('/api/brands/:id', BrandController.show);
 routes.put('/api/brands/:id', BrandController.update);
-routes.delete('/api/brands/:id', BrandController.destroy); // só falta esse
+routes.delete('/api/brands/:id', BrandController.destroy);
 
 routes.post('/api/models', ModelController.store);
 routes.get('/api/models/:id', ModelController.show);
 routes.put('/api/models/:id', ModelController.update);
-routes.delete('/api/models/:id', ModelController.destroy); // só falta esse
+routes.delete('/api/models/:id', ModelController.destroy);
 
 routes.post('/api/vehicles', VehicleController.store);
 routes.get('/api/vehicles/:id', VehicleController.show);
 routes.put('/api/vehicles/:id', VehicleController.update);
-routes.delete('/api/vehicles/:id', VehicleController.destroy); // só falta esse
+routes.delete('/api/vehicles/:id', VehicleController.destroy);
 
 export default routes;
